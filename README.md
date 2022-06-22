@@ -2,7 +2,9 @@
 This project contains some useful helper classes which are handy in any projects.
 
 ## 1. TryCatch
-Imagine, you are processing a stream of values and a streaming operation threw a checked exception. You will be forced to enclose those operation calls in a try-catch block, only to re-throw as unchecked exception (RuntimeException).
+Imagine, you are processing a stream of values and a streaming operation threw a checked exception. You will be forced to enclose those operation calls in a try-catch block, 
+only to re-throw as unchecked exception (RuntimeException).
+```TryCatch.wrap()``` methods help in reducing this verbose code in an elegant way.
 
 ### Before
 ```java
