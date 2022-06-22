@@ -22,3 +22,5 @@ List<String> fileData = files.stream()
     .map(TryCatch.wrap(f -> FileUtils.readFileToString(f, "UTF-8")))
     .collect(Collectors.toList())
 ```
+
+Similarly, there are overloaded ```TryCatch.wrap()``` methods for Suppliers and Consumers as well. Check them out.
