@@ -26,3 +26,27 @@ List<String> fileData = files.stream()
 ```
 
 Similarly, there are overloaded ```TryCatch.wrap()``` methods for Suppliers and Consumers as well. Check them out.
+
+## 2. MdcThreadHelper
+Suppose, you have a vanilla tracing mechanism where you use MDC of a logging framework to trace calls. 
+Since, MDCs are associated with a calling thread, anytime, we spawn additional threads for processing,
+those additional threads will loose the tracing info. In such situations, we must transfer the tracing information
+from calling thread to other spawned threads. This helper class exactly does that. 
+
+### Before
+```java
+CompletableFuture<PersonData> personDataCall = CompletableFuture.supplyAsynch(() -> getPersonData(key));
+CompletableFuture<PersonTaxData> personTaxDataCall = CompletableFuture.supplyAsynch(() -> getPersonTaxData(key));
+
+CompletableFuture.allOf(personDataCall, personTaxDataCall).join();
+```
+
+### After
+```java
+CompletableFuture<PersonData> personDataCall = CompletableFuture.supplyAsynch(MdcThreadHelper.tracedSupplier(() -> getPersonData(key)));
+CompletableFuture<PersonTaxData> personTaxDataCall = CompletableFuture.supplyAsynch(MdcThreadHelper.tracedSupplier(() -> getPersonTaxData(key)));
+
+CompletableFuture.allOf(personDataCall, personTaxDataCall).join();
+```
+
+Similarly, ```MdcThreadHelper``` has methods for ```Callable``` and ```Runnable``` calls. Check them out.
